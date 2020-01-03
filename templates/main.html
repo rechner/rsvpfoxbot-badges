@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css"/>
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+              {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script>
+      twemoji.parse(document.body);
+    </script>
+  </body>
+</html>

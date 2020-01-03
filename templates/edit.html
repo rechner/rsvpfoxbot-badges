@@ -1,0 +1,72 @@
+{% extends 'main.html' %}
+
+{% block title %}Checkin{% endblock %}
+
+{% block body %}
+<div class="container">
+  <h1>Please revise your badge information below</h1>
+  <div class="row">
+    <div class="col-md-3">
+      <img src="{{ person.profile_photo}}" class="thumbnail">
+      <div class="spinner-img spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <form action="{{ url_for('checkin') }}" method="post" id="theform">
+        <input type="hidden" name="id" value="{{ person.id }}">
+        <input type="hidden" name="user_id" value="{{ person.user_id }}">
+        <div class="form-group">
+          <label for="line1">Name</label>
+          <input class="form-control form-control-lg" type="text" name="line1" id="line1" value="{{ person.user_name }}" required="required">
+        </div>
+        <div class="form-row align-items-center">
+          <div class="col-md-6">
+            <label for="line2" class="sr-only">Pronouns</label>
+            <input class="form-control form-control-lg" type="text" name="line2" id="line2" placeholder="Pronouns">
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-lg btn-secondary btn-block pronoun-btn">he/him</button>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-lg btn-secondary btn-block pronoun-btn">she/her</button>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-lg btn-secondary btn-block pronoun-btn">they/them</button>
+          </div>
+        </div>
+        <div class="form-row rowspace">
+          <div class="col-md-6">
+            <button type="submit" id="submit-btn" class="btn btn-success btn-block">
+              Print Nametag
+            </button>
+          </div>
+          <div class="col-md-6">
+            <button id="cancel-btn" type="button" class="btn btn-danger btn-block">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function () {
+  $(".pronoun-btn").click(function () {
+    $("#line2").val($(this).text());
+  });
+  $("#cancel-btn").click(function () {
+    window.location = "/";
+  });
+  $('#submit-btn').click(function() {
+    $(this).html('Please wait... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
+      .attr('disabled','disabled');
+    $('#theform').submit();
+  });
+  twemoji.parse(document.body);
+});
+
+
+</script>
+{% endblock %}

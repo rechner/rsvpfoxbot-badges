@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+
+{% block title %}Checkin{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+  <h1 style="text-align: center">Welcome!  Please select your name from the list below.</h1>
+  <div class="row rowspace">
+    <div class="col-md-3 offset-md-2">
+      <button class="btn btn-info btn-block" id="refresh-btn">
+        ♻️ Refresh
+      </button>
+    </div>
+    <div class="col-md-3 offset-md-2">
+      <button class="btn btn-secondary btn-block" id="custom-btn">
+        ✏️ Custom
+      </button>
+    </div>
+  </div>
+  <div class="row rowspace">
+  {% for person in rsvps if person.response != 0%}
+      <div class="col-md-6">
+      {% if person.response == 1 %}
+        {% if person.checked_in %}
+          {% set p_class = 'success' %}
+        {% else %}
+          {% set p_class = 'primary' %}
+        {% endif %}
+      {% elif person.response == 2 %}
+        {% set p_class = 'secondary' %}
+      {% else %}
+        {% set p_class = 'danger' %}
+      {% endif %}
+        <button
+          class="btn btn-{{ p_class }} btn-block name-btn"
+          data-id="{{ person.id }}"
+          >
+          {{ person.user_name }}
+        </button>
+      </div>
+      {% if loop.index % 2== 0 %}
+      </div><div class="row rowspace">
+      {% endif %}
+  {% endfor %}
+  </div>
+</div>
+
+<script>
+$(document).ready(function () {
+  $("#refresh-btn").click(function (evt) {
+    window.location = "/";
+  });
+  $("#custom-btn").click(function (evt) {
+    window.location = "/custom";
+  });
+  $(".name-btn").click(function (evt) {
+    var id = $(this).data("id");
+    window.location = "/edit/" + id;
+  });
+});
+</script>
+{% endblock %}
+
+

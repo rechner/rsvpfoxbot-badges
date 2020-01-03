@@ -1,0 +1,4 @@
+Flask==1.1.1
+Pillow==6.2.1
+brother-ql==0.9.4
+requests
