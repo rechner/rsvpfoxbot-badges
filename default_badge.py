@@ -14,17 +14,13 @@ def DefaultBadgeTemplate(badge, data):
 
     # scale image
     icon_size = (1.2*300, 1.2*300)
-    icon_place = (0.027, 0.027)
     try:
         icon = Image.open(data["icon"]).convert("RGBA")
         icon.thumbnail(icon_size, Image.ANTIALIAS)
+        badge.image.paste(icon, (4, 4))
     except:
         pass
 
     # (1.2 x 1.2) @ 0.027, 0.027
-
-
-    badge.image.paste(icon, (4, 4))
-
     #import pdb; pdb.set_trace()
 
