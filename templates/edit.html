@@ -35,6 +35,27 @@
             <button type="button" class="btn btn-lg btn-secondary btn-block pronoun-btn">they/them</button>
           </div>
         </div>
+        <div class="form-row align-items-center" style="margin-top: 10px;">
+          <div class="col-md-6">
+            <label for="vaccinated">I am vaccinated against the SARS-nCoV-2 virus</label>
+          </div>
+          <div class="col-md-3">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-lg btn-primary active">
+                <input type="radio" name="options" id="option1" autocomplete="off"> Yes
+              </label>
+              <label class="btn btn-lg btn-primary">
+                <input type="radio" name="options" id="option2" autocomplete="off" checked> No
+              </label>
+            </div>
+          </div>
+          <!--
+          <div class="col-md-3">
+            <button class="btn btn-lg btn-secondary">Scan QR Code</button>
+          </div>
+          -->
+        </div>
+
         <div class="form-row rowspace">
           <div class="col-md-6">
             <button type="submit" id="submit-btn" class="btn btn-success btn-block">

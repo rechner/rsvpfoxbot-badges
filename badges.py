@@ -223,9 +223,11 @@ def make_template(width_in, height_in, *, image_mode=MODE_GRAYSCALE, dpi=DEFAULT
 
 if __name__ == "__main__":
     from default_badge import DefaultBadgeTemplate
-    badge = DefaultBadgeTemplate(default_font='DejaVuSans')
+    badge = DefaultBadgeTemplate(default_font='DejaVuSans_Bold')
 
-    with open('rechner.jpeg', 'rb') as icon:
+    #with open('rechner.jpeg', 'rb') as icon:
+    if True:
+      icon = None
       data = {
         'line1' : "\ud83c\udf38Tohru😺",
         'line2' : "He/Him",

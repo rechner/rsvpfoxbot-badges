@@ -7,9 +7,9 @@ from brother_ql.raster import BrotherQLRaster
 
 from default_badge import DefaultBadgeTemplate
 
-KEY = "781cf175e1b45db3f773b86bb7d0c3bc"
-API_URL = "http://localhost:5000"
-CHAT_ID = "-335147868"
+KEY = "881cf175e1b45db3f773b86bb7d0c3bc"
+API_URL = "http://docker1.lan.knot.space:5001/"
+CHAT_ID = "-1001285653547"  # Gender reveal
 
 PRINTER = {
   'MODEL' : 'QL-800',
@@ -27,6 +27,7 @@ def index():
   if r.ok:
     rsvps = r.json()
   else:
+    app.logger.error(r)
     abort(500)
 
   return render_template("index.html", rsvps=rsvps)
@@ -82,8 +83,7 @@ def checkin():
     'icon' : icon,
   }
 
-  rendered_badge = BytesIO()
-  badge.render(data, 'tmp.png', background='template.png')
+  badge.render(data, 'tmp.png', background='gender.png')
 
   qlr = BrotherQLRaster(PRINTER["MODEL"])
   qlr.exception_on_warning = True
