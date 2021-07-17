@@ -8,8 +8,8 @@ from brother_ql.raster import BrotherQLRaster
 from default_badge import DefaultBadgeTemplate
 
 KEY = "881cf175e1b45db3f773b86bb7d0c3bc"
-API_URL = "http://docker1.lan.knot.space:5001/"
-CHAT_ID = "-1001285653547"  # Gender reveal
+API_URL = "http://localhost:5001" # SSH tunnel to docker1
+CHAT_ID = "-1001377799367"  # Xanie's brithday
 
 PRINTER = {
   'MODEL' : 'QL-800',
@@ -83,7 +83,7 @@ def checkin():
     'icon' : icon,
   }
 
-  badge.render(data, 'tmp.png', background='gender.png')
+  badge.render(data, 'tmp.png', background='birthday.png')
 
   qlr = BrotherQLRaster(PRINTER["MODEL"])
   qlr.exception_on_warning = True
