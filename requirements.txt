@@ -1,4 +1,5 @@
-Flask==1.1.1
+Flask==2.1.0
 Pillow==9.0.1
 brother-ql==0.9.4
 requests
+influxdb~=5.2.3

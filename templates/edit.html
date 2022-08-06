@@ -49,6 +49,7 @@
               </label>
             </div>
           </div>
+
           <!--
           <div class="col-md-3">
             <button class="btn btn-lg btn-secondary">Scan QR Code</button>
@@ -56,9 +57,25 @@
           -->
         </div>
 
+       <div class="form-row rowspace">
+         {% if risk %}
+           <h4>
+           {% if risk.last == 0 %}
+             🛡 <span class="text-success"><b>low</b></span>
+             {% elif risk.last > 0 %}
+             🛡 <span class="text-warning"><b>medium</b></span>
+           {% elif risk.last > 2 %}
+             😷 <span class="text-danger"><b>medium</b></span>
+           {% endif %}
+           </h4>
+         {% else %}
+           <h4 class="text-danger">Please complete the symptom check-in at <b>rsvp.knot.space</b></h4>
+       {% endif %}
+       </div>
+
         <div class="form-row rowspace">
           <div class="col-md-6">
-            <button type="submit" id="submit-btn" class="btn btn-success btn-block">
+            <button type="submit" id="submit-btn" class="btn btn-success btn-block" {% if not risk %}disabled{% endif %}>
               Print Nametag
             </button>
           </div>
