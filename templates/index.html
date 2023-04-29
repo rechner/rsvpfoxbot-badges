@@ -31,15 +31,11 @@
       {% else %}
         {% set p_class = 'danger' %}
       {% endif %}
-      {% set risk = risks[person.user_id] %}
         <button
           class="btn btn-{{ p_class }} btn-block name-btn"
           data-id="{{ person.id }}"
           >
           {{ person.user_name }}
-        {% if risk %}
-          {%  if risk.last == 0 %} (🛡) {% elif risk.last > 2 %} (😷) {% endif %}
-        {%  endif %}
         </button>
       </div>
       {% if loop.index % 2== 0 %}

@@ -89,7 +89,7 @@ class ImageDrawInches(ImageDraw.ImageDraw):
         self._update_fill(kwargs)
         return super().text(self.in_to_px(xy), self._basic_to_str(text), **kwargs)
 
-    def multiline_text(self, xy, text):
+    def multiline_text(self, xy, text, **kwargs):
         self._update_fill(kwargs)
         return super().multiline_text(self.in_to_px(xy), self._basic_to_str(text), **kwargs)
 
@@ -182,7 +182,7 @@ class BadgeTemplate:
     def draw_badge(self, renderer, data):
         self._draw_func(renderer, data)
 
-    def render(self, data, fp, format=None, background=None):
+    def render(self, data, fp, format=None, background=None, rotate=False):
         if background is None:
           image = Image.new(self._image_mode, in_to_px(self._size, dpi=self._dpi), self._bg_color)
         else:
@@ -190,6 +190,8 @@ class BadgeTemplate:
         draw = ImageDrawInches(image, self._image_mode, fill_color=self._fg_color)
         renderer = self.Renderer(image, draw, self._dpi, self._default_font)
         self.draw_badge(renderer, data)
+        if rotate:
+            image = image.rotate(180)
         image.save(fp, format)
 
     @property
@@ -223,13 +225,13 @@ def make_template(width_in, height_in, *, image_mode=MODE_GRAYSCALE, dpi=DEFAULT
 
 if __name__ == "__main__":
     from default_badge import DefaultBadgeTemplate
-    badge = DefaultBadgeTemplate(default_font='DejaVuSans_Bold')
+    badge = DefaultBadgeTemplate(default_font='dejavu/DejaVuSans-Bold.ttf')
 
-    #with open('rechner.jpeg', 'rb') as icon:
-    if True:
-      icon = None
+    with open('dulse.jpg', 'rb') as icon:
+    #if True:
+      #icon = None
       data = {
-        'line1' : "\ud83c\udf38Tohru😺",
+        'line1' : "Tohru😺 Longname",
         'line2' : "He/Him",
         'icon' : icon,
       }

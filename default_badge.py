@@ -6,11 +6,19 @@ def DefaultBadgeTemplate(badge, data):
     bg = Image.open("template.png")
     #badge.draw.bitmap((0, 0), bg)
 
-    badge.register_font('line1', 0.4)
+    badge.register_font('line1', 0.35)
     badge.register_font('line2', 0.35)
+    badge.register_font('line3', 0.35)
 
-    badge.draw.centertext((badge.width / 2, 1.3), data["line1"], font=badge.font('line1'), v_align='top', max_width=3.75)
-    badge.draw.centertext((badge.width / 2, 2.1), data["line2"], font=badge.font('line2'), valign='top', max_width=3.75)
+    line1 = data["line1"]
+    line2 = " "
+    if len(line1) > 10 and ' ' in line1:
+        line1 = data["line1"].split()[0]
+        line2 = "".join(data["line1"].split()[1:])
+
+    badge.draw.centertext((badge.width / 2, 1.6), line1, font=badge.font('line1'), v_align='top', max_width=2.5)
+    badge.draw.centertext((badge.width / 2, 2.2), line2, font=badge.font('line2'), valign='top', max_width=2.5)
+    badge.draw.centertext((badge.width / 2, 3.0), data["line2"], font=badge.font('line3'), valign='top', max_width=2.5)
 
     # scale image
     icon_size = (1.2*300, 1.2*300)

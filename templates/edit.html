@@ -34,21 +34,6 @@
           <div class="col-md-2">
             <button type="button" class="btn btn-lg btn-secondary btn-block pronoun-btn">they/them</button>
           </div>
-        </div>
-        <div class="form-row align-items-center" style="margin-top: 10px;">
-          <div class="col-md-6">
-            <label for="vaccinated">I am vaccinated against the SARS-nCoV-2 virus</label>
-          </div>
-          <div class="col-md-3">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-lg btn-primary active">
-                <input type="radio" name="options" id="option1" autocomplete="off"> Yes
-              </label>
-              <label class="btn btn-lg btn-primary">
-                <input type="radio" name="options" id="option2" autocomplete="off" checked> No
-              </label>
-            </div>
-          </div>
 
           <!--
           <div class="col-md-3">
@@ -57,25 +42,9 @@
           -->
         </div>
 
-       <div class="form-row rowspace">
-         {% if risk %}
-           <h4>
-           {% if risk.last == 0 %}
-             🛡 <span class="text-success"><b>low</b></span>
-             {% elif risk.last > 0 %}
-             🛡 <span class="text-warning"><b>medium</b></span>
-           {% elif risk.last > 2 %}
-             😷 <span class="text-danger"><b>medium</b></span>
-           {% endif %}
-           </h4>
-         {% else %}
-           <h4 class="text-danger">Please complete the symptom check-in at <b>rsvp.knot.space</b></h4>
-       {% endif %}
-       </div>
-
         <div class="form-row rowspace">
           <div class="col-md-6">
-            <button type="submit" id="submit-btn" class="btn btn-success btn-block" {% if not risk %}disabled{% endif %}>
+            <button type="submit" id="submit-btn" class="btn btn-success btn-block">
               Print Nametag
             </button>
           </div>

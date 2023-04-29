@@ -4,13 +4,12 @@ import requests
 from brother_ql.conversion import convert
 from brother_ql.backends.helpers import send
 from brother_ql.raster import BrotherQLRaster
-from influxdb import InfluxDBClient
 
 from default_badge import DefaultBadgeTemplate
 
 KEY = "881cf175e1b45db3f773b86bb7d0c3bc"
 API_URL = "http://docker1.lan.knot.space:5001" # SSH tunnel to docker1
-CHAT_ID = "-1001695777359"  # Dulse's brithday
+CHAT_ID = "-1001922469938"  # Q2 training
 INFLUX_HOST = "setec.lan.knot.space"
 
 PRINTER = {
@@ -23,13 +22,6 @@ PRINTER = {
 app = Flask(__name__)
 app.secret_key = "super secret"
 
-db_client = InfluxDBClient(INFLUX_HOST, database="covid_check")
-
-def get_risk_data():
-  risks = db_client.query("select last(risk) from risk group by telegram_id")
-  keys = [key[1]['telegram_id'] for key in risks.keys()]
-  return {int(telegram_id): list(risks.get_points(tags={'telegram_id': telegram_id}))[0] for telegram_id in keys}
-
 @app.route("/")
 def index():
   r = requests.get("{0}/rsvps/{1}?auth={2}".format(API_URL, CHAT_ID, KEY))
@@ -39,8 +31,7 @@ def index():
     app.logger.error(r)
     abort(500)
 
-  risks_dict = get_risk_data()
-  return render_template("index.html", rsvps=rsvps, risks=risks_dict)
+  return render_template("index.html", rsvps=rsvps)
 
 
 @app.route("/edit/<int:id>")
@@ -57,12 +48,8 @@ def edit(id):
       person = dict(s)
 
   person["profile_photo"] = "{0}/photo/{1}?auth={2}".format(API_URL, person["user_id"], KEY)
-  risk_data = get_risk_data()
-  risk = None
-  if person["user_id"] in risk_data:
-    risk = risk_data[person["user_id"]]
 
-  return render_template("edit.html", person=person, risk=risk)
+  return render_template("edit.html", person=person)
 
 
 @app.route("/custom")
@@ -97,22 +84,40 @@ def checkin():
     'icon' : icon,
   }
 
-  badge.render(data, 'tmp.png', background='birthday.png')
+  badge.render(data, 'tmp.png', background='template.png')
+
+  # Rotate image 180 and save a copy
+  badge.render(data, 'tmp-180.png', background='template.png', rotate=True)
 
   qlr = BrotherQLRaster(PRINTER["MODEL"])
   qlr.exception_on_warning = True
   kwargs = {
     'label' : PRINTER['LABEL'],
     'red' : True,
-    'rotate' : '90',
+    'rotate' : '0',
+    'images' : {
+      open('tmp.png', 'rb'),
+    },
+    'cut' : False,
+  }
+
+  instructions = convert(qlr=qlr, **kwargs)
+  send(instructions=instructions, printer_identifier=PRINTER["PRINTER"], backend_identifier=PRINTER["BACKEND"], blocking=True)
+
+  qlr = BrotherQLRaster(PRINTER["MODEL"])
+  qlr.exception_on_warning = True
+  kwargs = {
+    'label' : PRINTER['LABEL'],
+    'red' : True,
+    'rotate' : '0',
     'images' : {
       open('tmp.png', 'rb'),
     },
     'cut' : True,
   }
-
   instructions = convert(qlr=qlr, **kwargs)
-  send(instructions=instructions, printer_identifier=PRINTER["PRINTER"], backend_identifier=PRINTER["BACKEND"], blocking=False)
+  send(instructions=instructions, printer_identifier=PRINTER["PRINTER"], backend_identifier=PRINTER["BACKEND"],
+       blocking=False)
 
   flash('Printing nametag for {0}...'.format(line1), 'info')
 
