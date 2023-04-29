@@ -111,7 +111,7 @@ def checkin():
     'red' : True,
     'rotate' : '0',
     'images' : {
-      open('tmp.png', 'rb'),
+      open('tmp-180.png', 'rb'),
     },
     'cut' : True,
   }
