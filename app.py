@@ -104,21 +104,6 @@ def checkin():
   instructions = convert(qlr=qlr, **kwargs)
   send(instructions=instructions, printer_identifier=PRINTER["PRINTER"], backend_identifier=PRINTER["BACKEND"], blocking=True)
 
-  qlr = BrotherQLRaster(PRINTER["MODEL"])
-  qlr.exception_on_warning = True
-  kwargs = {
-    'label' : PRINTER['LABEL'],
-    'red' : True,
-    'rotate' : '0',
-    'images' : {
-      open('tmp-180.png', 'rb'),
-    },
-    'cut' : True,
-  }
-  instructions = convert(qlr=qlr, **kwargs)
-  send(instructions=instructions, printer_identifier=PRINTER["PRINTER"], backend_identifier=PRINTER["BACKEND"],
-       blocking=False)
-
   flash('Printing nametag for {0}...'.format(line1), 'info')
 
   return redirect(url_for('index'))
